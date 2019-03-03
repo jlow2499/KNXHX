@@ -1,5 +1,7 @@
 source("/home/jlowhorn/ShinyApps/Hackathon/www/makeModels.R",  local = TRUE)
 
+
+
 forecastdat <- reactive({
   
   options(mysql = list(
@@ -38,45 +40,34 @@ forecastagg <- reactive({
 
 
 
-  mademodels <- reactive({
-    agg <- forecastagg()
-    tbl <- forecastdat()
-    
-    models <- makeModels(agg,tbl)
-    models
-  })
- 
-  lenmodels <- reactive({
-   as.character(mademodels()[[1]][[1]])
- #   vect <- c()
- #   for(i in 1:len){
- #     vect[i] <- paste0('Forecast',i)
- #   }
- #   vect
-  })
- 
- output$texttest <- renderText(({
-   
-   lenmodels()
- }))
+mademodels <- reactive({
+  agg <- forecastagg()
+  tbl <- forecastdat()
+  
+  models <- makeModels(agg,tbl)
+  models
+})
+
+lenmodels <- reactive({
+  len <- length(mademodels())
+  vect <- c()
+  for(i in 1:len){
+    vect[i] <- paste0('Forecast',i)
+  }
+  as.character(vect)
+})
+
+output$texttest <- renderText(({
+  
+  lenmodels()
+}))
 
 
 output$forecastSelecter <- renderUI({
-  selectInput('forecastpicker','Select Forecast',choices='',selected='')
+  selectInput('forecastpicker','Select Forecast',choices='')
 })
 
-# observe(
-#   updateSelectInput(session,"forecastpicker",'Select Forecast',
-#                     choices=lenmodels(),selected=lenmodels()[1])
-# )
-
-
-
-
-
-
-
-
-
-
-
+observe(
+  updateSelectInput(session,"forecastpicker",'Select Forecast',
+                    choices=(lenmodels()))
+)

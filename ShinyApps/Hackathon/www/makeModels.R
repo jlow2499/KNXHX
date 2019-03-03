@@ -26,8 +26,12 @@ makeModels <- function(aggtable,rawdata){
       filter(SOLID_WASTE_CATEGORY==aggtable$SOLID_WASTE_CATEGORY[i]) %>%
       filter(LOCATION == aggtable$LOCATION[i] ) %>%
       filter(TYPE == aggtable$TYPE[i]) %>%
-      filter(WASTE_TYPE == aggtable$WASTE_TYPE[i])
+      filter(WASTE_TYPE == aggtable$WASTE_TYPE[i]) %>%
+      mutate(AMOUNT_POUNDS = ifelse(is.na(AMOUNT_POUNDS),0,AMOUNT_POUNDS))
     
+    if(nrow(test)<=6){
+      
+    }else{
     data <- test$AMOUNT_POUNDS
     
     
@@ -88,6 +92,7 @@ makeModels <- function(aggtable,rawdata){
     forecast <- rbind(actuals,forecast)
     
     models[[i]]<-list(Foreacst=forecast,MAPE=MAPE)
+    }
     
   }
   
