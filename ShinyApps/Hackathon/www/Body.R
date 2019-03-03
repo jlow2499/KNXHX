@@ -175,13 +175,13 @@ body <- dashboardBody(inlineCSS("
                                 ))
                               
                               ),
-                      tabItem(tabName='forecasts',
-                              fluidRow(
-                                uiOutput('forecastSelecter'),
-                                textOutput('texttest')
-                              )
-                              
-                              ),
+                      # tabItem(tabName='forecasts',
+                      #         fluidRow(
+                      #           uiOutput('forecastSelecter'),
+                      #           textOutput('texttest')
+                      #         )
+                      #         
+                      #         ),
                       tabItem(tabName='Map',
                               leafletOutput("mymap",width = "100%" ,height = "940"))
                       
